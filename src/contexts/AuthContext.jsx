@@ -6,14 +6,18 @@ const AuthContext = createContext(undefined);
 const getApiBaseUrl = () => {
   // Check for environment variable (set in Vercel)
   if (import.meta.env.VITE_API_URL) {
+    console.log("Using VITE_API_URL:", import.meta.env.VITE_API_URL);
     return import.meta.env.VITE_API_URL;
   }
   // In development, use relative URL (proxy handles it)
   if (import.meta.env.DEV) {
+    console.log("Using local development URL");
     return "";
   }
   // Default to your Vercel backend URL
-  return "https://vercel-backend-dgf8.vercel.app";
+  const fallbackUrl = "https://vercel-backend-hkdy.vercel.app";
+  console.log("Using fallback backend URL:", fallbackUrl);
+  return fallbackUrl;
 };
 
 export const useAuth = () => {
