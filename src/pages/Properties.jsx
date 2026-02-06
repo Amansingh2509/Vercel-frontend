@@ -10,7 +10,7 @@ import {
   Bath,
   Square,
 } from "lucide-react";
-import axios from "axios";
+import api from "../utils/api";
 
 const Properties = () => {
   const [filters, setFilters] = useState({
@@ -27,7 +27,7 @@ const Properties = () => {
   useEffect(() => {
     const fetchProperties = async () => {
       try {
-        const response = await axios.get("/api/properties");
+        const response = await api.get("/properties");
         setProperties(response.data);
       } catch (error) {
         console.error("Failed to fetch properties", error);

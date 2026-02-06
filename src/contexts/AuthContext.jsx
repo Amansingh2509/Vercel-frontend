@@ -2,6 +2,20 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 
 const AuthContext = createContext(undefined);
 
+// Use environment variable for API base URL in production
+const getApiBaseUrl = () => {
+  // Check for environment variable (set in Vercel)
+  if (import.meta.env.VITE_API_URL) {
+    return import.meta.env.VITE_API_URL;
+  }
+  // In development, use relative URL (proxy handles it)
+  if (import.meta.env.DEV) {
+    return "";
+  }
+  // Default to your Vercel backend URL
+  return "https://vercel-backend-dgf8.vercel.app";
+};
+
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (context === undefined) {
@@ -27,7 +41,8 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     try {
       console.log("Attempting login with:", { email, password });
-      const response = await fetch("/api/auth/login", {
+      const apiBaseUrl = getApiBaseUrl();
+      const response = await fetch(`${apiBaseUrl}/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -58,7 +73,8 @@ export const AuthProvider = ({ children }) => {
   // Function to refresh token
   const refreshToken = async () => {
     try {
-      const response = await fetch("/api/auth/refresh", {
+      const apiBaseUrl = getApiBaseUrl();
+      const response = await fetch(`${apiBaseUrl}/api/auth/refresh`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -103,8 +119,9 @@ export const AuthProvider = ({ children }) => {
   const register = async (name, email, password, userType) => {
     try {
       console.log("Attempting registration with:", { name, email, userType });
+      const apiBaseUrl = getApiBaseUrl();
 
-      const response = await fetch("/api/auth/register", {
+      const response = await fetch(`${apiBaseUrl}/api/auth/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, password, userType }),

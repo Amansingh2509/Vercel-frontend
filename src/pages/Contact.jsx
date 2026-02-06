@@ -1,6 +1,20 @@
 import React, { useState } from "react";
 import { Phone, Mail, MapPin, Clock, Send } from "lucide-react";
 
+// Use environment variable for API base URL in production
+const getApiBaseUrl = () => {
+  // Check for environment variable (set in Vercel)
+  if (import.meta.env.VITE_API_URL) {
+    return import.meta.env.VITE_API_URL;
+  }
+  // In development, use relative URL (proxy handles it)
+  if (import.meta.env.DEV) {
+    return "";
+  }
+  // Default to your Vercel backend URL
+  return "https://roomyy-backend.vercel.app";
+};
+
 const Contact = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -19,7 +33,8 @@ const Contact = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch("/api/contact", {
+    const apiBaseUrl = getApiBaseUrl();
+    const response = await fetch(`${apiBaseUrl}/api/contact`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

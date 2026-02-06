@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-import axios from "axios";
+import api from "../utils/api";
 import { useAuth } from "./AuthContext";
 
 const PropertyContext = createContext();
@@ -18,7 +18,7 @@ export const PropertyProvider = ({ children }) => {
 
   const fetchAllProperties = async () => {
     try {
-      const response = await axios.get("/api/properties");
+      const response = await api.get("/properties");
       setProperties(response.data);
     } catch (error) {
       console.error("Failed to fetch properties", error);
@@ -27,7 +27,7 @@ export const PropertyProvider = ({ children }) => {
 
   const fetchOwnerProperties = async (ownerId) => {
     try {
-      const response = await axios.get(`/api/properties/owner/${ownerId}`);
+      const response = await api.get(`/properties/owner/${ownerId}`);
       setProperties(response.data);
     } catch (error) {
       console.error("Failed to fetch owner properties", error);
@@ -51,7 +51,7 @@ export const PropertyProvider = ({ children }) => {
         throw new Error("No valid authentication token available");
       }
 
-      const response = await axios.post("/api/properties", propertyData, {
+      const response = await api.post("/properties", propertyData, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,
@@ -68,17 +68,13 @@ export const PropertyProvider = ({ children }) => {
         try {
           const newToken = await refreshToken();
           if (newToken) {
-            const retryResponse = await axios.post(
-              "/api/properties",
-              propertyData,
-              {
-                headers: {
-                  "Content-Type": "multipart/form-data",
-                  Authorization: `Bearer ${newToken}`,
-                },
-                withCredentials: true,
-              }
-            );
+            const retryResponse = await api.post("/properties", propertyData, {
+              headers: {
+                "Content-Type": "multipart/form-data",
+                Authorization: `Bearer ${newToken}`,
+              },
+              withCredentials: true,
+            });
             setProperties((prevProperties) => [
               ...prevProperties,
               retryResponse.data,

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import api from "../utils/api";
 
 const PurchaseRentalAgreement = () => {
   const [renterName, setRenterName] = useState("");
@@ -17,7 +17,7 @@ const PurchaseRentalAgreement = () => {
     }
 
     try {
-      const response = await axios.post("/api/properties/rental-agreement", {
+      const response = await api.post("/properties/rental-agreement", {
         renterName,
         renterEmail,
         renterPhone,

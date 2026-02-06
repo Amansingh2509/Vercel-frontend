@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FileText, CheckCircle, CreditCard, Scan } from "lucide-react";
-import axios from "axios";
+import api from "../utils/api";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 
@@ -37,7 +37,7 @@ const PropertyBookingEnhanced = () => {
     // Fetch properties to populate dropdown
     const fetchProperties = async () => {
       try {
-        const response = await axios.get("/api/properties");
+        const response = await api.get("/properties");
         setProperties(response.data);
 
         // Validate id param and set propertyId only if it exists in fetched properties
@@ -103,7 +103,7 @@ const PropertyBookingEnhanced = () => {
       }
 
       const token = await getValidToken();
-      const response = await axios.post("/api/bookings/booking", formData, {
+      const response = await api.post("/bookings/booking", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,

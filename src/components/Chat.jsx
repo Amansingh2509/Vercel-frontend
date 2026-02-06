@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../utils/api";
 import { Send, MessageCircle } from "lucide-react";
 
 const Chat = ({ bookingId, currentUser, otherUser }) => {
@@ -20,7 +20,7 @@ const Chat = ({ bookingId, currentUser, otherUser }) => {
 
   const initializeChat = async () => {
     try {
-      const response = await axios.post("/api/chat", { bookingId });
+      const response = await api.post("/chat", { bookingId });
       setChatId(response.data._id);
       setMessages(response.data.messages || []);
       setPurchaseDetails(response.data.purchaseDetails || {});
@@ -33,7 +33,7 @@ const Chat = ({ bookingId, currentUser, otherUser }) => {
     if (!newMessage.trim() || !chatId) return;
 
     try {
-      const response = await axios.post(`/api/chat/${chatId}/message`, {
+      const response = await api.post(`/chat/${chatId}/message`, {
         senderId: currentUser.id,
         message: newMessage,
       });
@@ -49,7 +49,7 @@ const Chat = ({ bookingId, currentUser, otherUser }) => {
     if (!chatId) return;
 
     try {
-      const response = await axios.put(`/api/chat/${chatId}/purchase`, {
+      const response = await api.put(`/chat/${chatId}/purchase`, {
         purchaseDetails,
       });
 
@@ -64,7 +64,7 @@ const Chat = ({ bookingId, currentUser, otherUser }) => {
     if (!chatId) return;
 
     try {
-      await axios.put(`/api/chat/${chatId}/purchase`, {
+      await api.put(`/chat/${chatId}/purchase`, {
         purchaseDetails: { ...purchaseDetails, isConfirmed: true },
       });
 

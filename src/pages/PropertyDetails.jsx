@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../utils/api";
 
 const PropertyDetails = () => {
   const [platformCharge, setPlatformCharge] = useState(0);
@@ -17,7 +17,7 @@ const PropertyDetails = () => {
   useEffect(() => {
     const fetchPropertyDetails = async () => {
       try {
-        const response = await axios.get(`/api/properties/${id}`);
+        const response = await api.get(`/properties/${id}`);
         setProperty(response.data);
       } catch (err) {
         setError("Failed to fetch property details.");
