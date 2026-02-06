@@ -2,11 +2,11 @@
   "rewrites": [
     {
       "source": "/api/(.*)",
-      "destination": "https://roomyy-backend.vercel.app/api/$1"
+      "destination": "https://vercel-backend-dgf8.vercel.app/api/$1"
     },
     {
       "source": "/uploads/(.*)",
-      "destination": "https://roomyy-backend.vercel.app/uploads/$1"
+      "destination": "https://vercel-backend-dgf8.vercel.app/uploads/$1"
     }
   ]
 }
