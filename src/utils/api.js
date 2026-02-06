@@ -13,7 +13,7 @@ const getApiBaseUrl = () => {
     return "";
   }
   // Default to your Vercel backend URL
-  const fallbackUrl = "https://vercel-backend-hkdy.vercel.app";
+  const fallbackUrl = "https://vercel-backend-taey.vercel.app";
   console.log("API: Using fallback backend URL:", fallbackUrl);
   return fallbackUrl;
 };
