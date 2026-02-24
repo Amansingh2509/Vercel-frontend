@@ -150,7 +150,7 @@ const Footer = () => {
           className="border-t border-gray-800 mt-10 pt-6 flex flex-col md:flex-row justify-between items-center"
         >
           <p className="text-gray-400 text-sm">
-            © 2025 RoomRental & Home Solution. All rights reserved.
+            © 2025 RoomRental & Home Solution. All rights reserved
           </p>
           <div className="flex space-x-6 mt-4 md:mt-0">
             {["Privacy Policy", "Terms of Service", "Cookie Policy"].map(
@@ -163,7 +163,7 @@ const Footer = () => {
                 >
                   {item}
                 </motion.a>
-              )
+              ),
             )}
           </div>
         </motion.div>
