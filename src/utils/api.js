@@ -2,18 +2,18 @@ import axios from "axios";
 
 // Use environment variable for API base URL in production
 const getApiBaseUrl = () => {
-  // Check for environment variable (set in Vercel)
-  if (import.meta.env.VITE_API_URL) {
-    console.log("API: Using VITE_API_URL:", import.meta.env.VITE_API_URL);
-    return import.meta.env.VITE_API_URL;
-  }
   // In development, use relative URL (proxy handles it)
   if (import.meta.env.DEV) {
     console.log("API: Using local development URL");
     return "";
   }
+  // Check for environment variable (set in Vercel)
+  if (import.meta.env.VITE_API_URL) {
+    console.log("API: Using VITE_API_URL:", import.meta.env.VITE_API_URL);
+    return import.meta.env.VITE_API_URL;
+  }
   // Default to your Vercel backend URL
-  const fallbackUrl = "https://vercel-backend-taey.vercel.app";
+  const fallbackUrl = "https://vercel-backend-tso3.vercel.app";
   console.log("API: Using fallback backend URL:", fallbackUrl);
   return fallbackUrl;
 };
