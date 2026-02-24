@@ -36,21 +36,25 @@ const Login = () => {
     try {
       if (isLogin) {
         console.log("Attempting login with:", formData.email);
-        const success = await login(formData.email, formData.password);
-        console.log("Login success:", success);
-        console.log("Login attempt result:", success);
-        if (success) {
+        const result = await login(formData.email, formData.password);
+        console.log("Login success:", result);
+        console.log("Login attempt result:", result);
+        if (result && result.success) {
           console.log(
             "Login successful, token:",
-            localStorage.getItem("token")
+            localStorage.getItem("token"),
           );
           console.log("Login successful, navigating to dashboard");
           navigate("/dashboard", { replace: true });
         } else {
-          console.log("Login failed");
-          setError("Login failed - please check your credentials");
+          console.log("Login failed:", result?.message);
+          // Show the actual error message from backend
+          setError(
+            result?.message || "Login failed - please check your credentials",
+          );
         }
       } else {
+        // Registration logic
         if (formData.password !== formData.confirmPassword) {
           setError("Passwords do not match");
           setLoading(false);
@@ -61,7 +65,7 @@ const Login = () => {
           formData.name,
           formData.email,
           formData.password,
-          formData.userType
+          formData.userType,
         );
         console.log("Registration attempt result:", result);
         if (result.success) {
@@ -74,7 +78,7 @@ const Login = () => {
     } catch (err) {
       console.error("Registration error:", err);
       setError(
-        "Network error - please check if the server is running on port 5002"
+        "Network error - please check if the server is running on port 5002",
       );
     } finally {
       setLoading(false);
@@ -246,8 +250,8 @@ const Login = () => {
                   ? "Signing In..."
                   : "Creating Account..."
                 : isLogin
-                ? "Sign In"
-                : "Create Account"}
+                  ? "Sign In"
+                  : "Create Account"}
             </button>
           </form>
 

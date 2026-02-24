@@ -52,6 +52,7 @@ export const AuthProvider = ({ children }) => {
         body: JSON.stringify({ email, password }),
       });
       const data = await response.json();
+
       if (response.ok && data.token) {
         console.log("Login response data:", data);
         const userData = {
@@ -64,13 +65,21 @@ export const AuthProvider = ({ children }) => {
         setUser(userData);
         localStorage.setItem("user", JSON.stringify(userData));
         localStorage.setItem("token", data.token);
-        return true;
+        return { success: true };
       } else {
-        return false;
+        // Return the actual error message from backend
+        console.log("Login failed:", data.message);
+        return {
+          success: false,
+          message: data.message || "Invalid credentials",
+        };
       }
     } catch (error) {
       console.error("Login error:", error);
-      return false;
+      return {
+        success: false,
+        message: "Cannot connect to server. Please try again later.",
+      };
     }
   };
 
